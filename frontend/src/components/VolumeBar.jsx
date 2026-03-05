@@ -6,9 +6,9 @@ const VolumeBar = ({ volume, setVolume, max = 5, step = 1 }) => {
     };
 
     return (
-        <div className="volume-slider-container">
-            <div className="volume-header">
-                <span className="volume-value">{volume.toFixed(1)}</span>
+        <div className="flex flex-col gap-[0.25rem] w-full">
+            <div className="flex items-center gap-[0.5rem] mb-[0.25rem]">
+                <span className="font-bold text-coffee text-[0.8rem]">{volume.toFixed(1)}</span>
             </div>
 
             <input
@@ -18,13 +18,13 @@ const VolumeBar = ({ volume, setVolume, max = 5, step = 1 }) => {
                 step={step}
                 value={volume}
                 onChange={handleChange}
-                className="volume-slider"
+                className="volume-slider w-full h-2 rounded-full outline-none appearance-none bg-beige-light"
                 style={{
-                    background: `linear-gradient(to right, var(--color-moss) 0%, var(--color-moss) ${percentage}%, var(--color-beige-light) ${percentage}%, var(--color-beige-light) 100%)`
+                    background: `linear-gradient(to right, #8A9B6E 0%, #8A9B6E ${percentage}%, #e0dcd3 ${percentage}%, #e0dcd3 100%)`
                 }}
             />
 
-            <div className="volume-labels">
+            <div className="flex justify-between text-[0.7rem] text-dark-grey mt-[0.25rem]">
                 <span>quiet</span>
                 <span>moderate</span>
                 <span>loud</span>

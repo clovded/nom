@@ -1,5 +1,3 @@
-import "../styles/map.css"
-
 const SearchField = ({onSearch}) => {
 
     const handleSearch = (e) => {
@@ -12,7 +10,7 @@ const SearchField = ({onSearch}) => {
     return (
         <form onSubmit={handleSearch}>
             <input
-                className="search"
+                className="px-4 py-3 border-2 border-blue rounded-[12px] bg-clay text-base text-[#111827] transition-all duration-200 focus:border-green focus:-translate-y-[3px] focus:outline-none"
                 type="text"
                 placeholder="search..."
                 name="search"

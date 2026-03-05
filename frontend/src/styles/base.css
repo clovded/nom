@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+    /* Colors */
+    --color-background: #FAF6ED;
+    --color-blue: #265281;
+    --color-black: #333;
+    --color-grey: #f5f5f7;
+    --color-dark-grey: #8b8c89;
+    --color-beige: #c3bca8;
+    --color-beige-light: #e0dcd3;
+    --color-green: #bbc451;
+    --color-clay: #f9f8f4;
+    --color-coffee: #6C5A4A;
+    --color-sage: #C9CCBD;
+    --color-moss: #8A9B6E;
+    --color-cream: #f8f3e9;
+
+    /* Fonts */
+    --font-lobster: 'Lobster', sans-serif;
+    --font-glacial: 'Glacial', sans-serif;
+
+    /* Shadows */
+    --shadow-soft: 0 4px 12px rgba(108, 90, 74, 0.08);
+    --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 6px 16px rgba(108, 90, 74, 0.12);
+}
+
+@font-face {
+    font-family: "Lobster";
+    src: url("../assets/fonts/LobsterFuguRegular-JpaJ7.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Glacial";
+    src: url("../assets/fonts/GlacialIndifference-Regular.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Glacial";
+    src: url("../assets/fonts/GlacialIndifference-Bold.otf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@layer base {
+    * {
+        font-family: "Glacial", sans-serif;
+        cursor: url(https://cur.cursors-4u.net/symbols/sym-7/sym635.ani),
+        url(https://cur.cursors-4u.net/symbols/sym-7/sym635.png),
+        auto !important;
+    }
+
+    body {
+        margin: 0;
+        padding: 0 60px;
+        background-color: #FAF6ED;
+    }
+}
+
+/* Leaflet map markers — applied to DOM elements created by Leaflet outside React */
+.location-marker div {
+    background-color: #f9f8f4;
+    border: 2px solid #8b8c89;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+/* Range slider thumb — pseudo-elements not supported by Tailwind utilities */
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #8A9B6E;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #8A9B6E;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+/* Rating card grid pattern — multi-layer gradient background */
+.rating-card-grid {
+    background-image:
+            linear-gradient(rgba(255, 255, 255, 0.7) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.7) 1px, transparent 1px);
+    background-size: 20px 20px;
+}

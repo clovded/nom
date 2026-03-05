@@ -1,4 +1,4 @@
-import Registration from "../components/Registration";
+import Registration from "../features/auth/Registration";
 import React from "react";
 
 const Register = () => {

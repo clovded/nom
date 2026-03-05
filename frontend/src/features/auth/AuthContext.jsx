@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { pb } from "../lib/pocketbase";
+import { pb } from "../../services/pocketbase";
 
 const defaultAuthContext = {
     currentUser: null,

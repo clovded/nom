@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import RatingsService from "./RatingsService";
+import useRatings from "./hooks/useRatings";
 
 const RatingTimeline = () => {
-    const { ratings, loading, error } = RatingsService();
+    const { ratings, loading, error } = useRatings();
 
     if (loading) return <div>Loading timeline...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -20,39 +19,31 @@ const RatingTimeline = () => {
     }, {});
 
     return (
-        <div className="timeline">
+        <div>
             {Object.entries(groupedRatings).map(([monthYear, monthRatings]) => (
-                <div key={monthYear} className="timeline-month">
+                <div key={monthYear}>
                     <h2>{monthYear}</h2>
                     {monthRatings.map((rating) => (
-                        <div key={rating.id} className="timeline-item">
-                            <div className="timeline-header" style={{
-                                display: 'flex',
-                                gap: '5px'
-                            }}>
+                        <div key={rating.id}>
+                            <div className="flex gap-[5px]">
                                 <span>{rating.expand?.location?.name || 'Unknown Location'}</span>
                                 <span>{new Date(rating.created).toLocaleDateString()}</span>
                                 <span>by {rating.expand?.user?.username || 'unknown'}</span>
                             </div>
-                            <div className="rating-details">
+                            <div className="grid gap-[0.5rem] mb-4">
                                 <div>Taste: {rating.taste || 'N/A'}</div>
                                 <div>Ambiance: {rating.ambiance || 'N/A'}</div>
                                 <div>Food Coma: {rating.foodComa || 'N/A'}</div>
                                 <div>Service: {rating.service || 'N/A'}</div>
                                 <div>Creativity: {rating.creativity || 'N/A'}</div>
                                 <div>Noise: {rating.noise || 'N/A'}</div>
-                                <div className="image-grid">
+                                <div className="flex flex-wrap gap-2">
                                     {rating.image.map((img, index) => (
                                         <img
                                             key={index}
                                             src={`https://nom-backend.fly.dev/api/files/ratings/${rating.id}/${img}`}
                                             alt={`Rating ${index + 1}`}
-                                            className="rating-image"
-                                            style={{
-                                                maxWidth: '100%',
-                                                height: 'auto',
-                                                width: '300px'
-                                            }}
+                                            className="max-w-full h-auto w-[300px]"
                                         />
                                     ))}
                                 </div>

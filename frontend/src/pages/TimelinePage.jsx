@@ -1,5 +1,5 @@
 import React from 'react'
-import RatingsTimeline from "../components/RatingsTimeline";
+import RatingsTimeline from "../features/ratings/RatingsTimeline";
 
 function TimelinePage() {
     return (
