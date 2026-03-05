@@ -1,12 +1,8 @@
-import { pb } from './pocketbase';
+import { api } from './api';
 
-export const getUserByIdentity = async (identity) => {
-    return pb.collection('users').getList(1, 1, {
-        filter: `username = "${identity}" || email = "${identity}"`,
-        $autoCancel: false
+export const createUser = async ({ username, password, passwordConfirm }) => {
+    return api('/api/auth/register', {
+        method: 'POST',
+        body: JSON.stringify({ username, password, passwordConfirm })
     });
-};
-
-export const createUser = async ({ email, username, password, passwordConfirm }) => {
-    return pb.collection('users').create({ email, username, password, passwordConfirm });
 };

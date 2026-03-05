@@ -1,16 +1,11 @@
-FROM alpine:latest
+FROM node:20-alpine
 
-ARG PB_VERSION=0.22.4
+WORKDIR /app
 
-RUN apk add --no-cache \
-    unzip \
-    ca-certificates
+COPY package.json .
+RUN npm install --omit=dev
 
-ADD https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip /tmp/pb.zip
-RUN unzip /tmp/pb.zip -d /pb/
-
-COPY ./pb_migrations /pb/pb_migrations
+COPY . .
 
 EXPOSE 8080
-
-CMD ["/pb/pocketbase", "serve", "--http=0.0.0.0:8080"]
+CMD ["node", "server.js"]

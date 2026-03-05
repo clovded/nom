@@ -30,6 +30,7 @@ function Navbar() {
                 <li><Link className="px-5 py-[5px] [text-decoration:none] text-background bg-black rounded-[10px] transition-colors duration-200 hover:bg-blue" to="/">Home</Link></li>
                 <li><Link className="px-5 py-[5px] [text-decoration:none] text-background bg-black rounded-[10px] transition-colors duration-200 hover:bg-blue" to="/about">About</Link></li>
                 <li><Link className="px-5 py-[5px] [text-decoration:none] text-background bg-black rounded-[10px] transition-colors duration-200 hover:bg-blue" to="/timeline">Timeline</Link></li>
+                <li><Link className="px-5 py-[5px] [text-decoration:none] text-background bg-black rounded-[10px] transition-colors duration-200 hover:bg-blue" to="/settings">Settings</Link></li>
             </ul>
             <Logout />
         </nav>

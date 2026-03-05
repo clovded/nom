@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { pb } from '../../../services/pocketbase';
 import { getOrCreateLocation } from '../../../services/ratingsService';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 const useFoodRating = ({ location, currentUser, onClose }) => {
     const [taste, setTaste] = useState(0);
@@ -26,26 +27,33 @@ const useFoodRating = ({ location, currentUser, onClose }) => {
 
         try {
             const locationRecord = await getOrCreateLocation(location);
-            console.log('Using location:', locationRecord);
 
-            const record = await pb.collection('ratings').create({
-                location: locationRecord.id,
-                user: currentUser.id,
-                taste: taste || 0,
-                ambiance: ambiance || 0,
-                foodComa: foodComa || 0,
-                service: service || 0,
-                noise: noise || 0,
-                creativity: creativity || 0,
-                image,
-                comment: comment || ''
+            const token = localStorage.getItem('token');
+            const formData = new FormData();
+            formData.append('location', locationRecord._id);
+            formData.append('taste', taste || 0);
+            formData.append('ambiance', ambiance || 0);
+            formData.append('foodComa', foodComa || 0);
+            formData.append('service', service || 0);
+            formData.append('noise', noise || 0);
+            formData.append('creativity', creativity || 0);
+            formData.append('comment', comment || '');
+            image.forEach(file => formData.append('images', file));
+
+            const res = await fetch(`${API_URL}/api/ratings`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` },
+                body: formData
             });
 
-            console.log('saved rating data', record);
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.message || 'Error saving rating');
+            }
+
             alert('Rating saved successfully');
             onClose();
         } catch (error) {
-            console.error('error saving rating:', error);
             setError('Error saving rating: ' + (error.message || 'Unknown error'));
         } finally {
             setIsLoading(false);

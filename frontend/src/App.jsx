@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import {AuthProvider} from "./features/auth/AuthContext";
 import TimelinePage from "./pages/TimelinePage";
 import Register from "./pages/Register";
+import SettingsPage from "./pages/SettingsPage";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                     <Route path="/about" element={<About />}/>
                     <Route path="/timeline" element={<TimelinePage />}/>
                     <Route path="/register" element={<Register />}/>
+                    <Route path="/settings" element={<SettingsPage />}/>
                 </Routes>
 
             </BrowserRouter>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { pb } from '../../../services/pocketbase';
+import { api } from '../../../services/api';
 
 const useRatings = () => {
     const [ratings, setRatings] = useState([]);
@@ -9,15 +9,11 @@ const useRatings = () => {
     const fetchRatings = async () => {
         try {
             setLoading(true);
-            const records = await pb.collection('ratings').getFullList({
-                sort: '-created',
-                expand: 'user,location'
-            });
-            setRatings(records);
+            const data = await api('/api/ratings');
+            setRatings(data);
             setError(null);
         } catch (error) {
             setError(error.message);
-            console.error('Error fetching ratings:', error);
         } finally {
             setLoading(false);
         }

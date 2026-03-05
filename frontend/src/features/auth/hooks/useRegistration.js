@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { createUser } from '../../../services/authService';
 
 const useRegistration = () => {
-    const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -17,7 +16,7 @@ const useRegistration = () => {
         setError('');
         setIsLoading(true);
 
-        if (!email || !username || !password) {
+        if (!username || !password) {
             setError("Please fill in all fields");
             setIsLoading(false);
             return;
@@ -36,7 +35,7 @@ const useRegistration = () => {
         }
 
         try {
-            await createUser({ email, username, password, passwordConfirm });
+            await createUser({ username, password, passwordConfirm });
             alert("User successfully created!");
             navigate('/login');
         } catch (error) {
@@ -48,7 +47,6 @@ const useRegistration = () => {
     };
 
     return {
-        email, setEmail,
         username, setUsername,
         password, setPassword,
         passwordConfirm, setPasswordConfirm,

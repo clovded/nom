@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { pb } from "../../services/pocketbase";
+import { api } from "../../services/api";
 
 const defaultAuthContext = {
     currentUser: null,
@@ -15,52 +15,39 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // check if there's a valid auth session
-        if (pb.authStore.isValid && pb.authStore.record) {
-            setCurrentUser(pb.authStore.record);
+        const token = localStorage.getItem('token');
+        if (token) {
+            api('/api/auth/me')
+                .then(user => setCurrentUser(user))
+                .catch(() => localStorage.removeItem('token'))
+                .finally(() => setLoading(false));
+        } else {
+            setLoading(false);
         }
-        setLoading(false);
-
-        const removeListener = pb.authStore.onChange(() => {
-            if (pb.authStore.isValid && pb.authStore.record) {
-                setCurrentUser(pb.authStore.record);
-            } else {
-                setCurrentUser(null);
-            }
-        });
-
-        // cleanup
-        return () => {
-            removeListener();
-        };
     }, []);
 
-    const value = {
-        currentUser,
-        setCurrentUser,
-
-        // login with pocketbase
-        login: async (identity, password) => {
-            try {
-                const authData = await pb.collection('users').authWithPassword(identity, password);
-                setCurrentUser(authData.record);
-                console.log("User logged in:", authData.record);
-                return { success: true };
-            } catch (error) {
-                return { success: false, error };
-            }
-        },
-
-        logout: () => {
-            pb.authStore.clear();
-            setCurrentUser(null);
-            console.log("User logged out");
+    const login = async (identity, password) => {
+        try {
+            const data = await api('/api/auth/login', {
+                method: 'POST',
+                body: JSON.stringify({ identity, password })
+            });
+            localStorage.setItem('token', data.token);
+            setCurrentUser(data.record);
             return { success: true };
+        } catch (error) {
+            return { success: false, error };
         }
     };
 
+    const logout = () => {
+        localStorage.removeItem('token');
+        setCurrentUser(null);
+        return { success: true };
+    };
+
     return (
-        <AuthContext.Provider value={value}>
+        <AuthContext.Provider value={{ currentUser, setCurrentUser, login, logout }}>
             {!loading && children}
         </AuthContext.Provider>
     );
@@ -68,10 +55,8 @@ export const AuthProvider = ({ children }) => {
 
 export const useAuth = () => {
     const context = useContext(AuthContext);
-
     if (context === undefined) {
         throw new Error("useAuth must be used within an AuthProvider");
     }
-
     return context;
 };

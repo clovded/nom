@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
-import { getUserByIdentity } from '../../../services/authService';
 
 const useLogin = () => {
     const [formData, setFormData] = useState({ identity: '', password: '' });
@@ -30,26 +29,13 @@ const useLogin = () => {
 
         try {
             const result = await login(identity, password);
-
             if (result.success) {
                 navigate('/');
-                return;
-            }
-
-            const users = await getUserByIdentity(identity);
-
-            if (users.items.length === 0) {
-                throw new Error("User not found");
-            }
-
-            const fallbackResult = await login(users.items[0].email, password);
-            if (fallbackResult.success) {
-                navigate('/');
             } else {
-                throw new Error("Invalid password");
+                throw result.error;
             }
         } catch (error) {
-            setError(error.message || "Invalid username or password");
+            setError(error?.message || "Invalid username or password");
         } finally {
             setLoading(false);
         }
